@@ -1,16 +1,16 @@
+
 public class TesteConta {
 
-   public static void main(String[] args) {
+	public static void main(String[] args) {
+		Lancamento lanc = new Lancamento("credita", 120);
+		Cliente cliente = new Cliente("123", "Joao");
+		Conta c1 = new Conta(1, cliente, 123, 200);
 
-     Conta c1 = new Conta(1, "João", 123, 1000);
+		c1.creditaValor(100, "credita");
+		c1.debitaValor(50, 123, "debita");
 
-     c1.creditaValor(100);
+		System.out.println(c1.verificaSaldo(123));
 
-     System.out.println("Saldo Produzido: " + c1.verificaSaldo(123));
-
-     System.out.println("Saldo Esperado: 1100");
-
-    }
+	}
 
 }
-

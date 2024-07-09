@@ -1,106 +1,86 @@
+
 public class Conta {
 
+	private int numero;
+	private Cliente titular;
+	private int senha;
+	private double saldo;
+	private Lancamento[] lancamentos;
+	private int ultimoLancamento;
 
+	public Conta(int numero, Cliente titular, int senha, double saldo) {
+		this.numero = numero;
+		this.titular = titular;
+		this.senha = senha;
+		this.saldo = saldo;
+		this.lancamentos = new Lancamento[11];
+	}
 
+	public boolean creditaValor(double valor, String operacaoBancaria) {
+		if (valor < 0) {
+			return false;
+		}
+		this.realizaLancamento(operacaoBancaria, valor);
+		this.saldo += valor;
+		return true;
+	}
 
- private int numero;
+	public double verificaSaldo(int senha) {
+		if (senhaEhValida(senha)) {
+			return this.saldo;
+		}
+		return -1;
+	}
 
- private String titular;
+	public boolean debitaValor(double valor, int senha, String operacaoBancaria) {
+		if (!senhaEhValida(senha) | valor > this.saldo | valor < 0) {
+			return false;
+		}
+		this.realizaLancamento(operacaoBancaria, -valor);
+		this.saldo -= valor;
+		return true;
+	}
 
- private int senha;
+	private void realizaLancamento(String descricao, double valor) {
+		if (this.ultimoLancamento == 10) {
+			for (int i = 1; i < 10; i++) {
+				this.lancamentos[i - 1] = this.lancamentos[i];
+			}
+		} else {
+			this.ultimoLancamento++;
+		}
+		this.lancamentos[this.ultimoLancamento] = new Lancamento(descricao, valor);
+	}
 
- private double saldo;
+	private boolean senhaEhValida(int senha) {
+		if (senha == this.senha) {
+			return true;
+		}
+		return false;
+	}
 
+	public Lancamento[] getLancamentos() {
+		return lancamentos;
+	}
 
+	public Cliente getTitular() {
+		return this.titular;
+	}
 
-  
+	public void setTitular(Cliente titular) {
+		this.titular = titular;
+	}
 
+	public int getNumero() {
+		return this.numero;
+	}
 
+	public int getUltimoLancamento() {
+		return ultimoLancamento;
+	}
 
-   public Conta(int num, String tit,int pwd,double valor) {
-
-      this.numero=num;
-
-      this.titular=tit;
-
-      this.senha=pwd;
-
-      this.saldo=valor;
-
-   }
-
-    public String getTitular() {
-
-    return this.titular;
-
-    }
-
-    
-
-    public int getNumero() {
-
-     return this.numero;
-
-    }
-
-
-    public void setTitular(String titular) {
-
-     this.titular = titular;
-
-    }
-
-    
-
- public boolean creditaValor(double valor) {
-
-   if(valor>=0) {
-
-    saldo+= valor;
-
-    return true;
-
-   }
-
-   return false; 
-
- }
-
-  
-
-   
-
- public double verificaSaldo(int senha) {
-
-  if(this.senha==senha) {
-
-    return this.saldo;
-
-  }
-
-   return -1;
-
- }
-
-  
-
- public boolean debitaValor(double valor, int senha) {
-
-   if(this.senha == senha && valor <= this.saldo &&
-
-   valor > 0) {
-
-    this.saldo -= valor;
-
-   return true;
-
-   }
-
-   return false;
-
- }
-
-
-
+	public void setUltimoLancamento(int ultimoLancamento) {
+		this.ultimoLancamento = ultimoLancamento;
+	}
 
 }
